@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border-width: 0;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+:root {
+    --text-color: #f8f8f8;
+    --text-light-color: #81828a; 
+
+    --primary-color: #1a1a1e;
+    --secondary-color: #222327;
+    --lighter-color: #2c2c30;
+    --accent-color: #653ca8;
+
+    --text-large: 2rem;
+    --text-medium: 1rem;
+    --text-small: 0.8rem;
+}
