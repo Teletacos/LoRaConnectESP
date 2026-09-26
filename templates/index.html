@@ -1,35 +1,38 @@
-{% args chats_preview %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="manifest" href="manifest.json">
+        <link rel="manifest" href="/static/manifest.json">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="static/css/general.css">
-        <link rel="stylesheet" href="static/css/index.css">
+        <link rel="stylesheet" href="/static/css/general.css">
+        <link rel="stylesheet" href="/static/css/index.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="header">
             <p class="header-text">Chats</p>
-            <form action="/chat/new" method="POST">
+            <form action="new_chat" method="POST">
                 <button class="header-add-button" type="submit">
-                    <img class="header-add-icon" src="static/images/icons/add.svg">
+                    <img class="header-add-icon" src="/static/images/icons/add.svg">
                 </button>
             </form>
         </div>
-        <form class="search-container" action="/" method="POST">
-            <button class="search-button" type="submit"><img class="search-button-icon" src="static/images/icons/search.svg"></button>
+        <form class="search-container" action="/index" method="POST">
+            <button class="search-button" type="submit"><img class="search-button-icon" src="/static/images/icons/search.svg"></button>
             <input class="search-box" type="search" name="search" placeholder="{{current_search}}">
         </form>
         <ul class="chat-list">
-            {% for chat_id, preview in chats_preview.items() %}
+            {% for preview in chats_previews %}
                 <li class="chat">
-                    <a class="chat-link" href="/chat/{{chat_id}}">
-                        <img class="chat-picture" src="{{preview.picture}}">
+                    <a class="chat-link" href="/chat/{{preview.id}}">
+                        <img class="chat-picture" src="/static/{{preview.picture_path}}">
                         <div class="chat-content">
                             <div class="chat-top">
                                 <p class="chat-name">{{ preview.name }}</p>
@@ -47,11 +50,3 @@
         </ul>
     </body>
 </html>
-
-<script>
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register(
-            "{{ url_for('static', filename='service-worker.js') }}"
-        );
-    }
-</script>

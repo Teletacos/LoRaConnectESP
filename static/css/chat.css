@@ -24,6 +24,10 @@ body {
 
 .back-button,
 .chat-picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     height: 3rem;
     width: 3rem;
     border-radius: 100%;
@@ -35,7 +39,6 @@ body {
 .back-button-icon {
     height: 100%;
     padding: 0.6rem;
-    padding-left: 0.8rem;
 }
 
 .header-text {

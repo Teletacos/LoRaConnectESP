@@ -8,7 +8,7 @@
     "icons": [
 
         {
-            "src": "/static/images/icons/app-icon.png",
+            "src": "/static/images/icons/add.svg",
             "sizes": "512x512",
             "type": "image/png"
         }

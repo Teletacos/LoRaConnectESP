@@ -1,12 +1,11 @@
-{% args chat user_data %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+        <link rel="stylesheet" href="/static/css/general.css">
+        <link rel="stylesheet" href="/static/css/chat.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,9 +14,9 @@
     <body>
         <div class="header">
             <a class="back-button" href="/">
-                <img class="back-button-icon" src="{{ url_for('static', filename='images/icons/arrow-back.svg') }}">
+                <img class="back-button-icon" src="/static/images/icons/arrow-back.svg">
             </a>
-            <img class="chat-picture" src="{{ url_for('static', filename=chat.picture) }}"">
+            <img class="chat-picture" src="/static/{{chat.picture_path}}">
             <div class="header-text">
                 <p class="chat-name">{{chat.name}}</p>
                 <p class="last-online">sågs senast idag 14:25</p>
@@ -29,14 +28,14 @@
                 {% for message in chat.messages %}
                     {% if message.sender == user_data.id %}
                         <p class="message receiver-message">
-                            <img src="{{ url_for('static', filename=user_data.picture) }}" 
+                            <img src="/static/{{user_data.picture}}" 
                                 alt="Sender Icon"
                                 class="message-icon">
                                 {{message.content}}
                         </p>
                     {% else %}
                         <p class="message sender-message">
-                            <img src="{{ url_for('static', filename=chat.picture) }}"
+                            <img src="/static/{{chat.picture}}"
                                 alt="Receiver Icon" 
                                 class="message-icon">
                                 {{message.content}}
@@ -48,7 +47,7 @@
             <form class="send-message" action="/chat/{{chat_id}}" method="POST">
                 <input type="text" placeholder="Message {{chat.name}}" name="message">
                 <button>
-                    <img src="{{ url_for('static', filename='images/icons/arrow-up.svg') }}">
+                    <img src="/static/images/icons/arrow-up.svg">
                 </button>
             </form>
         </div>

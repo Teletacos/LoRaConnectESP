@@ -1,7 +1,7 @@
 import os
 from random import choice
-from microdot import abort, iscoroutine, AsyncBytesIO
-from helpers import wraps
+from lib.microdot import abort, iscoroutine, AsyncBytesIO
+from lib.helpers import wraps
 
 
 class FormDataIter:
