@@ -9,4 +9,4 @@ class JSONHandler():
 
     def save_data(self, data):
         with open(self.path, "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4)
+            json.dump(data, file)

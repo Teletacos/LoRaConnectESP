@@ -2,27 +2,27 @@ class ChatsFormatter:
     def __init__(self):
         pass
 
-    def search_filter(self, chats, search):
-        filtered = []
-        for chat in chats:
-            if search in chats.name:
-                filtered.append(chat)
-        return filtered
+    def sort_by(self, chats, key_name="", reverse=False):
+        return sorted(chats, key=lambda item: item[key_name], reverse=reverse)
 
-    def get_chat_from_id(self, chats, id):
+    def exclude(self, chats, id="", name=""):
+        selected = []
         for chat in chats:
-            if chat.id == id:
-                return chat
-        return None
+            if id and (id == chat.id):
+                continue
+            if name and (name in chat.name):
+                continue
+            selected.append(chat)
+        return selected
 
-    def get_chats_previews(self, chats):
-        previews = []
+    def select(self, chats, id=None, name=None, search=None):
+        selected = []
         for chat in chats:
-            previews.append({
-                "id": chat.id,
-                "name": chat.name,
-                "last_msg": chat.last_msg,
-                "picture_path": chat.picture_path,
-                "notifications": chat.notifications,
-            })
-        return previews
+            if id and (id != chat.id):
+                continue
+            if name and (name != chat.name):
+                continue
+            if search and (search.lower() not in chat.name.lower()):
+                continue
+            selected.append(chat)
+        return selected

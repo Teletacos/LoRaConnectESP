@@ -1,3 +1,4 @@
+{% args device_chat, chat %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,10 +7,6 @@
 
         <link rel="stylesheet" href="/static/css/general.css">
         <link rel="stylesheet" href="/static/css/chat.css">
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="header">
@@ -26,16 +23,16 @@
         <div class="chat-container">
             <div class="message-container">
                 {% for message in chat.messages %}
-                    {% if message.sender == user_data.id %}
+                    {% if message.sender == device_chat.id %}
                         <p class="message receiver-message">
-                            <img src="/static/{{user_data.picture}}" 
+                            <img src="/static/{{device_chat.picture_path}}" 
                                 alt="Sender Icon"
                                 class="message-icon">
                                 {{message.content}}
                         </p>
                     {% else %}
                         <p class="message sender-message">
-                            <img src="/static/{{chat.picture}}"
+                            <img src="/static/{{chat.picture_path}}"
                                 alt="Receiver Icon" 
                                 class="message-icon">
                                 {{message.content}}
@@ -44,7 +41,7 @@
                 {% endfor %}
             </div>
 
-            <form class="send-message" action="/chat/{{chat_id}}" method="POST">
+            <form class="send-message" action="/chat/{{chat.id}}" method="POST">
                 <input type="text" placeholder="Message {{chat.name}}" name="message">
                 <button>
                     <img src="/static/images/icons/arrow-up.svg">

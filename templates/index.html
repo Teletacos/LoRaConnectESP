@@ -1,3 +1,4 @@
+{% args chats, current_search %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,10 +11,6 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/static/css/general.css">
         <link rel="stylesheet" href="/static/css/index.css">
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="header">
@@ -29,18 +26,18 @@
             <input class="search-box" type="search" name="search" placeholder="{{current_search}}">
         </form>
         <ul class="chat-list">
-            {% for preview in chats_previews %}
+            {% for chat in chats %}
                 <li class="chat">
-                    <a class="chat-link" href="/chat/{{preview.id}}">
-                        <img class="chat-picture" src="/static/{{preview.picture_path}}">
+                    <a class="chat-link" href="/chat/{{chat.id}}">
+                        <img class="chat-picture" src="/static/{{chat.picture_path}}">
                         <div class="chat-content">
                             <div class="chat-top">
-                                <p class="chat-name">{{ preview.name }}</p>
-                                <p class="chat-date">{{ preview.last_date }}</p>
+                                <p class="chat-name">{{ chat.name }}</p>
+                                <p class="chat-date">{{ chat.last_date }}</p>
                             </div>
                             <div class="chat-bottom">
-                                <p class="chat-msg">{{ preview.last_msg }}</p>
-                                <p class="chat-notification">{{ preview.notifications }}</p>
+                                <p class="chat-msg">{{ chat.last_msg }}</p>
+                                <p class="chat-notification">{{ chat.notifications }}</p>
                             </div>
                         </div>
                     </a>

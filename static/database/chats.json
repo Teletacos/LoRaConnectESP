@@ -2,15 +2,14 @@
     {
         "id": "0caad66b-f669-4c19-9549-7df2d4f89a8e",
         "name": "Waltha",
-        "picture_name": "pro.webp",
+        "picture_name": "walter.png",
         "messages": [
             {
-                "content": "",
+                "content": "This is where the message content will be displayed",
                 "date": "Unknown",
                 "sender": "0caad66b-f669-4c19-9549-7df2d4f89a8e",
                 "read": false
             }
         ]
     }
-
 ]
