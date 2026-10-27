@@ -1,11 +1,6 @@
-import network
+#import network
 from lib.microdot.microdot import Microdot, send_file, Response
 from lib.microdot.utemplate_micro import Template
-from classes.chatsConverter import ChatsConverter
-from classes.chatsFormatter import ChatsFormatter
-from classes.jsonHandler import JSONHandler
-from classes.message import Message
-from classes.chat import Chat
 import asyncio
 
 app = Microdot()
@@ -45,7 +40,6 @@ async def counter():
         print(i)
         await asyncio.sleep(1)
 
-setup_wifi()
 async def main():
     asyncio.create_task(counter())
     await app.run(debug=True, port=5000, host="0.0.0.0")

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "2",
+    "name": "Bob",
+    "picture_name": "walter.png",
+    "last_seen": 1700000000
+  },
+  {
+    "id": "3",
+    "name": "Charlie",
+    "picture_name": "walter.png",
+    "last_seen": 1700000500
+  }
+]

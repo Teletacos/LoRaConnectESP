@@ -1,10 +1,14 @@
-{% args device_chat, chat %}
+{% args identity, chat %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <link rel="manifest" href="/static/manifest.json">
+        <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
+        <meta charset="UTF-8">
         <link rel="stylesheet" href="/static/css/general.css">
         <link rel="stylesheet" href="/static/css/chat.css">
     </head>
@@ -13,9 +17,9 @@
             <a class="back-button" href="/">
                 <img class="back-button-icon" src="/static/images/icons/arrow-back.svg">
             </a>
-            <img class="chat-picture" src="/static/{{chat.picture_path}}">
+            <img class="chat-picture" src="">
             <div class="header-text">
-                <p class="chat-name">{{chat.name}}</p>
+                <p class="chat-name">{{ chat.name }}</p>
                 <p class="last-online">sågs senast idag 14:25</p>
             </div>
         </div>
@@ -23,16 +27,16 @@
         <div class="chat-container">
             <div class="message-container">
                 {% for message in chat.messages %}
-                    {% if message.sender == device_chat.id %}
+                    {% if message.sender_id == identity.id %}
                         <p class="message receiver-message">
-                            <img src="/static/{{device_chat.picture_path}}" 
+                            <img src="" 
                                 alt="Sender Icon"
                                 class="message-icon">
                                 {{message.content}}
                         </p>
                     {% else %}
                         <p class="message sender-message">
-                            <img src="/static/{{chat.picture_path}}"
+                            <img src=""
                                 alt="Receiver Icon" 
                                 class="message-icon">
                                 {{message.content}}

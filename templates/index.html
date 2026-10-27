@@ -1,4 +1,4 @@
-{% args chats, current_search %}
+{% args identity, chats %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,21 +23,21 @@
         </div>
         <form class="search-container" action="/index" method="POST">
             <button class="search-button" type="submit"><img class="search-button-icon" src="/static/images/icons/search.svg"></button>
-            <input class="search-box" type="search" name="search" placeholder="{{current_search}}">
+            <input class="search-box" type="search" name="search" placeholder="current_search">
         </form>
         <ul class="chat-list">
             {% for chat in chats %}
                 <li class="chat">
                     <a class="chat-link" href="/chat/{{chat.id}}">
-                        <img class="chat-picture" src="/static/{{chat.picture_path}}">
+                        <img class="chat-picture" src=">
                         <div class="chat-content">
                             <div class="chat-top">
                                 <p class="chat-name">{{ chat.name }}</p>
-                                <p class="chat-date">{{ chat.last_date }}</p>
+                                <p class="chat-date">{{ chat.created_at }}</p>
                             </div>
                             <div class="chat-bottom">
-                                <p class="chat-msg">{{ chat.last_msg }}</p>
-                                <p class="chat-notification">{{ chat.notifications }}</p>
+                                <p class="chat-msg">chat.last_msg</p>
+                                <p class="chat-notification">chat.notifications</p>
                             </div>
                         </div>
                     </a>
