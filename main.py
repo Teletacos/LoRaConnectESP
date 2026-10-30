@@ -1,16 +1,17 @@
+import classes.wifi as wifi
+wifi.run()
+
 from lib.microdot.microdot import Microdot, Response, send_file, redirect
 from lib.microdot.multipart import with_form_data
 from lib.microdot.utemplate_micro import Template
+
+app = Microdot()
+Response.default_content_type = "text/html"
 
 import classes.database.data_handler as data_handler
 import classes.database.data_formatter as data_formatter
 from classes.sender import Sender
 from classes.database.message import Message
-
-import classes.wifi as wifi
-
-app = Microdot()
-Response.default_content_type = "text/html"
 
 @app.route('/static/<path:path>')
 async def static(request, path):
@@ -36,8 +37,6 @@ async def open_chat(request, chat_id):
     print("Opening chat:", chat_id)
     identity = data_handler.get_identity()
     chat = data_handler.get_chat(chat_id)
-
-    return "ADW"
 
     try:
         identity = data_handler.get_identity()
@@ -72,7 +71,7 @@ async def open_chat(request, chat_id):
         return "Internal server error", 500
     
 #lora_sender = Sender()
-wifi.run()
-#app.run(debug=True, port=80, host="0.0.0.0")
+
+app.run(debug=True, port=8000, host="0.0.0.0")
 
 #asyncio.run(main())
