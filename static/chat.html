@@ -1,4 +1,3 @@
-{% args identity, chat %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -17,32 +16,30 @@
             <a class="back-button" href="/">
                 <img class="back-button-icon" src="/static/images/icons/arrow-back.svg">
             </a>
-            <img class="chat-picture" src="">
+            <img class="chat-picture" src="/static/images/user-pics/kristina.png">
             <div class="header-text">
-                <p class="chat-name">{{ chat.name }}</p>
+                <p class="chat-name">{% chat.name %}</p>
                 <p class="last-online">sågs senast idag 14:25</p>
             </div>
         </div>
 
         <div class="chat-container">
             <div class="message-container">
-                {% for message in chat.messages %}
-                    {% if message.sender_id == identity.id %}
+                {{ for message in chat.messages }}
+                    {{ if message.is_sender }}
                         <p class="message receiver-message">
-                            <img src="" 
-                                alt="Sender Icon"
+                            <img src="/static/images/user-pics/{% message.picture_name %}" 
                                 class="message-icon">
-                                {{message.content}}
+                                {% message.content %}
                         </p>
-                    {% else %}
+                    {{ else }}
                         <p class="message sender-message">
-                            <img src=""
-                                alt="Receiver Icon" 
+                            <img src="/static/images/user-pics/{% message.picture_name %}"
                                 class="message-icon">
-                                {{message.content}}
+                                {% message.content %}
                         </p>
-                    {% endif %}
-                {% endfor %}
+                    {{ endif }}
+                {{ endfor }}
             </div>
 
             <form class="send-message" action="/chat/{{chat.id}}" method="POST">

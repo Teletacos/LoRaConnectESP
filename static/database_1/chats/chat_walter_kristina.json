@@ -1,23 +1,23 @@
 {
-  "id": "chat_alice_bob",
-  "name": "DM 1",
+  "id": "chat_walter_kristina",
+  "name": "Walter kristina chat",
   "member_ids": [
-    "1",
-    "2"
+    1,
+    2
   ],
   "created_at": "2026-09-30",
   "messages": [
     {
       "id": "msg_001",
-      "sender_id": "1",
-      "content": "Hey Bob, are you online?",
+      "sender_id": 1,
+      "content": "Hey Kristina, are you online?",
       "timestamp": "2026-09-30",
       "status": "delivered"
     },
     {
       "id": "msg_002",
-      "sender_id": "2",
-      "content": "Yes, live and connected!",
+      "sender_id": 2,
+      "content": "Yes Walter, live and connected!",
       "timestamp": "2026-09-30",
       "status": "received"
     }
