@@ -1,28 +1,44 @@
 import ujson
+import struct
 from classes.database.message import Message
 
 class LoraPacket:
-    def __init__(self, message=None, chat_id="", encoded=None):
-        self.message = message
-        self.chat_id = chat_id
+    HEADER_FORMAT = ">IIB" # 255 characters content max, B=unsigned char 1 byte
+    HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
+
+    def __init__(self, message_id=0, chat_id=0, content="", encoded=None):
         if encoded:
-            print("Decoding")
             self.decode(encoded)
+            return
+
+        self.message_id = message_id
+        self.chat_id = chat_id
+        self.content = content
             
     def encode(self):
-        return ujson.dumps(self.to_dict()).encode("utf-8")
+        content = self.content.encode("utf-8")
+        header = struct.pack(
+            self.HEADER_FORMAT,
+            self.chat_id,
+            self.message_id,
+            len(content)
+        )
+        encoded = header + content
+        print(f"Encoded packet size: {len(encoded)} bytes")
+        return encoded
 
     def decode(self, encoded):
+        if len(encoded) < self.HEADER_SIZE:
+            raise ValueError("Invalid packet: header too short")
+        
         print("Decoding", encoded)
-        encoded = encoded.decode("utf-8")
-        print("Unloaded JSON: ", encoded)
-        msg_dict = ujson.loads(encoded)
-        print("Loaded JSON: ", msg_dict)
-        self.message = Message(msg_dict["message"])
-        self.chat_id = msg_dict["chat_id"]
+        self.chat_id, self.message_id, content_length = struct.unpack(
+            self.HEADER_FORMAT,
+            encoded[:self.HEADER_SIZE]
+        )
+        content = encoded[self.HEADER_SIZE:]
+        
+        if len(content) != content_length:
+            raise ValueError("Invalid packet: incorrect content length")
 
-    def to_dict(self):
-        return {
-            "message": self.message.to_dict(),
-            "chat_id": self.chat_id
-        }
+        self.content = content.decode("utf-8")

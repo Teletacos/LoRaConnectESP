@@ -46,6 +46,8 @@ def url_decode(value):
 
 @app.route('/')
 def home(request):
+    gc.collect()
+
     search_str = ""
     if request.method == "POST":
         search_str = request.form.get("search")
@@ -64,39 +66,20 @@ def open_chat(request, match):
 
     chat.messages = chat.messages[-20:] # Last 20 messages
     for message in chat.messages:
-        if message.sender_id == identity.id:
-            message.picture_name = identity.picture_name
-            message.is_sender = True
-        else:
-            contact = None
-            for c in contacts:
-                if c.id == message.sender_id:
-                    contact = c
-                    break
-
-            if contact:
-                message.picture_name = contact.picture_name
-                message.is_sender = False
+        message.format_html(identity, contacts)
 
     if request.method == "POST":
-        message_to_send = request.form.get("message", "")
-        message_to_send = url_decode(message_to_send)
+        form_message = request.form.get("message", "") 
+        message_to_send = url_decode(form_message)
         if 0 < len(message_to_send) < 100:
-            message = Message({
-                "id": "0",
-                "sender_id": identity.id,
-                "content": message_to_send,
-                "created_at": "2020-01-01",
-                "status": "pending",
-             })
+            message = Message(id=len(chat.messages), sender_id=identity.id, content=message_to_send, status=Message.PENDING)
             recv_id = [x for x in chat.member_ids if x != identity.id][0]
             ack = lora_sender.send_message(message, chat_id, recv_id)
-            if ack:
-                return app.redirect(f"/chat/{chat_id}")
+            return app.redirect(f"/chat/{chat_id}")
     return app.render_template('static/chat.html', identity=identity, chat=chat)    
 
-@app.route('/api/status', methods=['GET'])
-def status(req):
-    return app.json_response({"status": "running", "ip": wifi.get_ip()})
+@app.route('/api/data', methods=['GET'])
+def data(req):
+    return app.json_response(data_handler.get)
 
 app.run()

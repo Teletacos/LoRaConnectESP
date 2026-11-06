@@ -28,15 +28,15 @@
                 {{ for message in chat.messages }}
                     {{ if message.is_sender }}
                         <p class="message receiver-message">
-                            <img src="/static/images/user-pics/{% message.picture_name %}" 
-                                class="message-icon">
-                                {% message.content %}
+                            <img src="/static/images/user-pics/{% message.picture_name %}" class="message-icon">
+                            {% message.content %}
+                            {% message.status %}
                         </p>
                     {{ else }}
                         <p class="message sender-message">
-                            <img src="/static/images/user-pics/{% message.picture_name %}"
-                                class="message-icon">
-                                {% message.content %}
+                            <img src="/static/images/user-pics/{% message.picture_name %}" class="message-icon">
+                            {% message.content %}
+                            {% message.status %}
                         </p>
                     {{ endif }}
                 {{ endfor }}
