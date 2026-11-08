@@ -19,3 +19,27 @@
     --text-medium: 1rem;
     --text-small: 0.8rem;
 }
+
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input, textarea, .message {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+.animated {
+    transition-duration: 0.3s;
+}
+
+.animated:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0px 15px var(--accent-color);
+}
+
+.animated:active {
+    transform: scale(0.95);
+}

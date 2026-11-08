@@ -525,7 +525,7 @@ class MicroWeb:
                             'Content-Type': response.content_type,
                             'Content-Length': str(file_size),
                             'Access-Control-Allow-Origin': '*',
-                            'Cache-Control': 'public, max-age=5'
+                            'Cache-Control': 'public, max-age=3600'
                         }
                         header_response = 'HTTP/1.1 200 OK\r\n'
                         for key, value in headers.items():

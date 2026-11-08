@@ -75,3 +75,15 @@ def add_message(message, chat_id):
     chat = get_chat(chat_id)
     chat.messages.append(message)
     save_chat(chat)
+
+def set_message(message, chat_id):
+    chat = get_chat(chat_id)
+    found_chat = False
+    for i in range(len(chat.messages)):
+        if chat.messages[i].id == message.id:
+            chat.messages[i] = message
+            found_chat = True
+            break
+    if not found_chat:
+        chat.messages.append(message)
+    save_chat(chat)

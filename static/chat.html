@@ -13,10 +13,10 @@
     </head>
     <body>
         <div class="header">
-            <a class="back-button" href="/">
+            <a class="back-button animated" href="/">
                 <img class="back-button-icon" src="/static/images/icons/arrow-back.svg">
             </a>
-            <img class="chat-picture" src="/static/images/user-pics/kristina.png">
+            <img class="chat-picture" src="/static/images/icons/group.svg">
             <div class="header-text">
                 <p class="chat-name">{% chat.name %}</p>
                 <p class="last-online">sågs senast idag 14:25</p>
@@ -26,15 +26,15 @@
         <div class="chat-container">
             <div class="message-container">
                 {{ for message in chat.messages }}
-                    {{ if message.is_sender }}
+                    {{ if message._is_sender }}
                         <p class="message receiver-message">
-                            <img src="/static/images/user-pics/{% message.picture_name %}" class="message-icon">
+                            <img src="/static/images/user-pics/{% message._picture_name %}" class="message-icon">
                             {% message.content %}
                             {% message.status %}
                         </p>
                     {{ else }}
                         <p class="message sender-message">
-                            <img src="/static/images/user-pics/{% message.picture_name %}" class="message-icon">
+                            <img src="/static/images/user-pics/{% message._picture_name %}" class="message-icon">
                             {% message.content %}
                             {% message.status %}
                         </p>
@@ -44,10 +44,20 @@
 
             <form class="send-message" action="/chat/{{chat.id}}" method="POST">
                 <input type="text" placeholder="Message {{chat.name}}" name="message">
-                <button>
+                <button class="animated">
                     <img src="/static/images/icons/arrow-up.svg">
                 </button>
             </form>
         </div>
     </body>
+
+    <script>
+        const messageContainer = document.querySelector(".message-container");
+
+        function scrollToBottom() {
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        window.addEventListener("load", scrollToBottom);
+    </script>
 </html>

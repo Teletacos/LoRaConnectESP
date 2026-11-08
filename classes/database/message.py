@@ -21,8 +21,7 @@ class Message:
         self._is_sender = False
 
     def format_html(self, identity, contacts):
-        self.status = self.STATUS_LABELS[self.status], 
-        
+        self.status = self.STATUS_LABELS[self.status]
         if self.sender_id == identity.id:
             self._picture_name = identity.picture_name
             self._is_sender = True
@@ -32,11 +31,9 @@ class Message:
                 if c.id == self.sender_id:
                     contact = c
                     break
-        
-        if contact:
-            self._picture_name = contact.picture_name
-            self._is_sender = False
-
+            if contact:
+                self._picture_name = contact.picture_name
+                self._is_sender = False
 
     def to_dict(self):
         return {

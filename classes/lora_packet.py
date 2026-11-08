@@ -1,4 +1,3 @@
-import ujson
 import struct
 from classes.database.message import Message
 

@@ -37,7 +37,7 @@ body {
     flex-direction: row;
     align-items: center;
     height: 3rem;
-    margin: 0 0.75rem 0.5rem 0.75rem;
+    margin: 0 0.75rem 1rem 0.75rem;
     border-radius: 3rem;
     background-color: var(--secondary-color);
 }
@@ -77,6 +77,11 @@ body {
 
 .chat {
     height: 5.5rem;
+    transition-duration: 0.3s;
+}
+
+.chat:hover {
+    box-shadow: 0 0px 15px var(--accent-color);
 }
 
 .chat-link {
@@ -92,6 +97,7 @@ body {
     border-width: 1px 0 1px 0;
     border-color: var(--lighter-color);
 }
+
 
 .chat-picture {
     padding: 0.75rem;
