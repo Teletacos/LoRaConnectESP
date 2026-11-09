@@ -1,6 +1,7 @@
 
 body {
     background-color: var(--primary-color);
+    padding-bottom: 8rem;
 }
 
 .header {
@@ -40,6 +41,8 @@ body {
     margin: 0 0.75rem 1rem 0.75rem;
     border-radius: 3rem;
     background-color: var(--secondary-color);
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .search-container:focus-within{
@@ -77,11 +80,6 @@ body {
 
 .chat {
     height: 5.5rem;
-    transition-duration: 0.3s;
-}
-
-.chat:hover {
-    box-shadow: 0 0px 15px var(--accent-color);
 }
 
 .chat-link {
@@ -90,12 +88,17 @@ body {
     align-items: center;
     height: 100%;
 
-    background-color: var(--secondary-color);
     color: inherit;
     text-decoration: none;
     border-style: solid;
-    border-width: 1px 0 1px 0;
+    border-width: 0 0 1px 0;
     border-color: var(--lighter-color);
+
+    transition-duration: 0.3s;
+}
+
+.chat-link:hover {
+    background-color: var(--lighter-color);
 }
 
 
@@ -172,3 +175,44 @@ body {
     color: var(--text-color);
 }
 
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+    position: fixed;
+    bottom: 3rem;
+    left: 1rem;
+    right: 1rem;
+    height: 3.5rem;
+
+    border-radius: 4rem 1rem 1rem 4rem;
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.identity-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.identity-picture {
+    height: 4rem;
+    border-radius: 100%;
+    margin-right: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.identity-name {
+    font-size: var(--text-medium);
+    font-weight: bold;
+    color: var(--text-color)
+}
+
+.identity-id {
+    font-size: var(--text-medium);
+    color: var(--text-light-color);
+}

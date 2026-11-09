@@ -31,8 +31,8 @@
                         <img class="chat-picture" src="/static/images/user-pics/kristina.png">
                         <div class="chat-content">
                             <div class="chat-top">
-                                <p class="chat-name">{{ chat.name }}</p>
-                                <p class="chat-date">{{ chat.created_at }}</p>
+                                <p class="chat-name">{% chat.name %}</p>
+                                <p class="chat-date">{% chat.created_at %}</p>
                             </div>
                             <div class="chat-bottom">
                                 <p class="chat-msg">chat.last_msg</p>
@@ -44,5 +44,12 @@
 
             {{ endfor }}
         </ul>
+        <div class="footer">
+            <img class="identity-picture" src="/static/images/user-pics/kristina.png">
+            <div class="identity-info">
+                <p class="identity-name">{% identity.name %}</p>
+                <p class="identity-id">{% identity.id %}</p>
+            </div>           
+        </div>
     </body>
 </html>

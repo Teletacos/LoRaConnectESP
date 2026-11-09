@@ -31,7 +31,6 @@ class LoraSender():
         self.queue_running = False
     
     def on_recv(self, payload):
-        self.recv_led_pin.value(1)
         sender_id = payload.header_from
         try:
             packet = LoraPacket(encoded=payload.message)
@@ -47,7 +46,7 @@ class LoraSender():
                 "status": Message.RECEIVED,
             })
             data_handler.add_message(message, packet.chat_id)
-            print("Writing:", packet.message.content)
+            print("Writing:", packet.content)
         else:
             print("Not writing message")
 

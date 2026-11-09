@@ -68,13 +68,9 @@ def open_chat(request, match):
     gc.collect()
 
     chat_id = int(match.group(1))
-    contacts = data_handler.get_all_contacts()
     chat = data_handler.get_chat(chat_id)
     message_amount = len(chat.messages)
 
-    chat.messages = chat.messages[-20:] # Last 20 messages
-    for message in chat.messages:
-        message.format_html(identity, contacts)
     if request.method == "POST":
         global last_message_time
         if time.ticks_diff(time.ticks_ms(), last_message_time) < MESSAGE_COOLDOWN:
@@ -91,9 +87,19 @@ def open_chat(request, match):
             return app.redirect(f"/chat/{chat_id}")
     return app.render_template('static/chat.html', identity=identity, chat=chat)    
 
-@app.route('/api/data', methods=['GET'])
-def data(req):
-    return app.json_response([chat.to_dict() for chat in data_handler.get_all_chats()])
+@app.route("/chat/<chat_id>/messages")
+def get_messages(request, match):
+    chat = data_handler.get_chat(int(match.group(1)))
+    contacts = data_handler.get_all_contacts()
+    chat.messages = chat.messages[-20:]
+
+    for message in chat.messages:
+        message.format_html(identity, contacts)
+
+    return app.render_template(
+        "static/messages.html",
+        chat=chat
+    )
 
 async def main():
     _thread.start_new_thread(app.run, ())

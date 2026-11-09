@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="/static/css/general.css">
         <link rel="stylesheet" href="/static/css/chat.css">
     </head>
+
     <body>
         <div class="header">
             <a class="back-button animated" href="/">
@@ -24,22 +25,8 @@
         </div>
 
         <div class="chat-container">
-            <div class="message-container">
-                {{ for message in chat.messages }}
-                    {{ if message._is_sender }}
-                        <p class="message receiver-message">
-                            <img src="/static/images/user-pics/{% message._picture_name %}" class="message-icon">
-                            {% message.content %}
-                            {% message.status %}
-                        </p>
-                    {{ else }}
-                        <p class="message sender-message">
-                            <img src="/static/images/user-pics/{% message._picture_name %}" class="message-icon">
-                            {% message.content %}
-                            {% message.status %}
-                        </p>
-                    {{ endif }}
-                {{ endfor }}
+            <div class="message-container" id="messages">
+                
             </div>
 
             <form class="send-message" action="/chat/{{chat.id}}" method="POST">
@@ -49,15 +36,47 @@
                 </button>
             </form>
         </div>
+
+        <script>
+            const messageContainer = document.getElementById("messages");
+
+            function scrollToBottom() {
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+
+            async function updateMessages() {
+                if (document.hidden) return;
+
+                const atBottom =
+                    messageContainer.scrollHeight -
+                    messageContainer.scrollTop -
+                    messageContainer.clientHeight < 100;
+
+                try {
+                    const response = await fetch(
+                        "/chat/{{chat.id}}/messages"
+                    );
+
+                    if (!response.ok) return;
+
+                    const html = await response.text();
+
+                    if (messageContainer.innerHTML !== html) {
+                        messageContainer.innerHTML = html;
+
+                        if (atBottom) {
+                            scrollToBottom();
+                        }
+                    }
+
+                } catch (error) {
+                    console.log("Message update failed:", error);
+                }
+            }
+
+            updateMessages();
+            scrollToBottom();
+            setInterval(updateMessages, 3000);
+        </script>
     </body>
-
-    <script>
-        const messageContainer = document.querySelector(".message-container");
-
-        function scrollToBottom() {
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-
-        window.addEventListener("load", scrollToBottom);
-    </script>
 </html>
