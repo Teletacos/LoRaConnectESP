@@ -14,29 +14,33 @@
     <body>  
         <div class="header">
             <p class="header-text">Chats</p>
-            <form action="new_chat" method="POST">
+            <form action="/new_chat" method="POST">
                 <button class="header-add-button" type="submit">
                     <img class="header-add-icon" src="/static/images/icons/add.svg">
                 </button>
             </form>
         </div>
-        <form class="search-container" action="/index" method="POST">
+        <form class="search-container" action="/" method="POST">
             <button class="search-button" type="submit"><img class="search-button-icon" src="/static/images/icons/search.svg"></button>
-            <input class="search-box" type="search" name="search" placeholder="current_search">
+            <input class="search-box" type="search" name="search" placeholder="{% current_search %}">
         </form>
         <ul class="chat-list">
             {{ for chat in chats }}
                 <li class="chat">
                     <a class="chat-link" href="/chat/{{chat.id}}">
-                        <img class="chat-picture" src="/static/images/user-pics/kristina.png">
+                        <img class="chat-picture" src="/static/images/icons/group.svg">
                         <div class="chat-content">
                             <div class="chat-top">
                                 <p class="chat-name">{% chat.name %}</p>
                                 <p class="chat-date">{% chat.created_at %}</p>
                             </div>
                             <div class="chat-bottom">
-                                <p class="chat-msg">chat.last_msg</p>
-                                <p class="chat-notification">chat.notifications</p>
+                                <p class="chat-msg">{% chat._last_message %}</p>
+                                <div class="chat-members">
+                                    {{ for picture_name in chat._member_picture_names }}
+                                        <img class="chat-member-picture" src="/static/images/user-pics/{% picture_name %}">
+                                    {{ endfor }}
+                                </div>
                             </div>
                         </div>
                     </a>

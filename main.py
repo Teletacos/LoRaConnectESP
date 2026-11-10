@@ -51,17 +51,20 @@ def url_decode(value):
 
     return result.decode("utf-8")
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home(request):
     gc.collect()
 
     search_str = ""
     if request.method == "POST":
-        search_str = request.form.get("search")
+        search_str = url_decode(request.form.get("search"))
 
+    contacts = data_handler.get_all_contacts()
     chats = data_handler.get_all_chats()
     selected_chats = data_formatter.contains(chats, name=search_str)
-    return app.render_template('static/index.html', identity=identity, chats=selected_chats)   
+    for chat in selected_chats:
+        chat.format_html(contacts)
+    return app.render_template('static/index.html', identity=identity, chats=selected_chats, current_search=search_str)   
 
 @app.route("/chat/<chat_id>", methods=["GET", "POST"])
 def open_chat(request, match):

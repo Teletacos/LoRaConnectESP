@@ -8,6 +8,15 @@ class Chat:
         self.created_at = chat_dicts.get("created_at") or "2026-10-20"
         message_list = chat_dicts.get("messages") or []
         self.messages = [Message(message) for message in message_list]
+        self._last_message = "Last message will be displayed here"
+        self._member_picture_names = []
+
+    def format_html(self, contacts):
+        self._last_message = self.messages[-1].content
+        self._member_picture_names.clear()
+        for contact in contacts:
+            if contact.id in self.member_ids:
+                self._member_picture_names.append(contact.picture_name)
 
     def to_dict(self):
         return {

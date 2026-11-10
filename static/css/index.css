@@ -113,7 +113,7 @@ body {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     padding-right: 1rem;
-    grid-template-rows: 1.2rem 1fr;
+    grid-template-rows: 1.5rem 1fr;
 }
 
 .chat-top { 
@@ -161,18 +161,20 @@ body {
     overflow-wrap: anywhere;
 }
 
-.chat-notification {
+.chat-members {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 
-    height: 1.25rem;
+    height: 2rem;
     padding: 0 0.5rem 0 0.5rem;
+}
 
-    font-size: var(--text-small);
-    border-radius: 0.6rem;
-    background-color: var(--accent-color);
-    color: var(--text-color);
+.chat-member-picture {
+    height: 100%;
+    margin-left: 5px;
+    border-radius: 100%;
 }
 
 .footer {

@@ -77,6 +77,6 @@ class LoraSender():
                 else:
                     self.queue[0] = [message, chat_id, recv_id, counter+1]
                     print("Retrying: ", counter+1)
-                await asyncio.sleep(5)
+                await asyncio.sleep(5 * pow(2, counter))
             else:
                 await asyncio.sleep_ms(100)

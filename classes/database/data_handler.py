@@ -27,7 +27,6 @@ def get_contact(id):
             return contact
     return None
 
-
 def save_contact(contact):
     contacts = get_all_contacts()
     found = False
