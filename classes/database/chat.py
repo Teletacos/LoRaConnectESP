@@ -12,7 +12,7 @@ class Chat:
         self._member_picture_names = []
 
     def format_html(self, contacts):
-        self._last_message = self.messages[-1].content
+        self._last_message = self.messages[-1].content if len(self.messages) > 0 else ""
         self._member_picture_names.clear()
         for contact in contacts:
             if contact.id in self.member_ids:

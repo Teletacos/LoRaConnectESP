@@ -22,6 +22,7 @@ app.add_static("/static/manifest.json", "static/manifest.json")
 app.add_static("/static/css/general.css", "static/css/general.css")
 app.add_static("/static/css/index.css", "static/css/index.css")
 app.add_static("/static/css/chat.css", "static/css/chat.css")
+app.add_static("/static/css/contacts.css", "static/css/contacts.css")
 app.add_static("/static/images/icons/add.svg", "static/images/icons/add.svg")
 app.add_static("/static/images/icons/search.svg", "static/images/icons/search.svg")
 app.add_static("/static/images/icons/arrow-back.svg", "static/images/icons/arrow-back.svg")
@@ -52,19 +53,29 @@ def url_decode(value):
     return result.decode("utf-8")
 
 @app.route('/', methods=["GET", "POST"])
-def home(request):
+def chats(request):
     gc.collect()
 
     search_str = ""
     if request.method == "POST":
         search_str = url_decode(request.form.get("search"))
 
+    print("Here 1")
     contacts = data_handler.get_all_contacts()
     chats = data_handler.get_all_chats()
     selected_chats = data_formatter.contains(chats, name=search_str)
+    print("Here 2")
     for chat in selected_chats:
         chat.format_html(contacts)
+    print("Here 3")
     return app.render_template('static/index.html', identity=identity, chats=selected_chats, current_search=search_str)   
+
+@app.route('/contacts', methods=["GET", "POST"])
+def contacts(request):
+    gc.collect()
+
+    contacts = data_handler.get_all_contacts()
+    return app.render_template('static/contacts.html', identity=identity, contacts=contacts)   
 
 @app.route("/chat/<chat_id>", methods=["GET", "POST"])
 def open_chat(request, match):
