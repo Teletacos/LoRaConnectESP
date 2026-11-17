@@ -182,7 +182,7 @@ body {
     height: 100%;
     width: 100%;
     background-color:rgba(0,0,0,.4);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -250,7 +250,7 @@ body {
     height: 100%;
     width: 100%;
     background-color:rgba(0,0,0,.4);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }

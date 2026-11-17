@@ -1,12 +1,12 @@
 from classes.database.message import Message
 
 class Chat:
-    def __init__(self, chat_dicts):
-        self.id = chat_dicts.get("id") or 0
-        self.name = chat_dicts.get("name") or ""
-        self.member_ids = chat_dicts.get("member_ids") or []
-        self.created_at = chat_dicts.get("created_at") or "2026-10-20"
-        message_list = chat_dicts.get("messages") or []
+    def __init__(self, chat_dict):
+        self.id = chat_dict.get("id") or 0
+        self.name = chat_dict.get("name") or ""
+        self.member_ids = chat_dict.get("member_ids") or []
+        self.created_at = chat_dict.get("created_at") or "2026-10-20"
+        message_list = chat_dict.get("messages") or []
         self.messages = [Message(message) for message in message_list]
         self._last_message = "Last message will be displayed here"
         self._member_picture_names = []

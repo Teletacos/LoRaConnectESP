@@ -5,6 +5,10 @@ CONTACTS_PATH = "static/database/contacts.json"
 IDENTITY_PATH = "static/database/identity.json"
 CHATS_PATH = "static/database/chats"
 
+def delete_file(path):
+    if os.path.exists(path):
+        os.remove(path)
+
 def load_file(path):
     with open(path, "r", encoding="utf-8") as file:
         return ujson.load(file)

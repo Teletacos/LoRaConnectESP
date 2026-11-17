@@ -7,7 +7,7 @@ import classes.database.data_formatter as data_formatter
 from classes.lora_sender import LoraSender
 from classes.database.message import Message
 from classes.database.contact import Contact
-
+from classes.database.chat import Chat
 
 import lib.microweb.wifi as wifi
 from lib.microweb.microweb import MicroWeb, Response, FileResponse
@@ -25,6 +25,10 @@ app.add_static("/static/css/general.css", "static/css/general.css")
 app.add_static("/static/css/index.css", "static/css/index.css")
 app.add_static("/static/css/chat.css", "static/css/chat.css")
 app.add_static("/static/css/contacts.css", "static/css/contacts.css")
+
+app.add_static("/static/js/add-popup.js", "static/js/add-popup.js")
+app.add_static("/static/js/edit-popup.js", "static/js/edit-popup.js")
+
 app.add_static("/static/images/icons/add.svg", "static/images/icons/add.svg")
 app.add_static("/static/images/icons/search.svg", "static/images/icons/search.svg")
 app.add_static("/static/images/icons/arrow-back.svg", "static/images/icons/arrow-back.svg")
@@ -32,6 +36,8 @@ app.add_static("/static/images/icons/arrow-up.svg", "static/images/icons/arrow-u
 app.add_static("/static/images/icons/group.svg", "static/images/icons/group.svg")
 app.add_static("/static/images/user-pics/kristina.png", "static/images/user-pics/kristina.png")
 app.add_static("/static/images/user-pics/walter.png", "static/images/user-pics/walter.png")
+app.add_static("/static/images/user-pics/default.png", "static/images/user-pics/default.png")
+
 
 def url_decode(value):
     result = bytearray()
@@ -58,61 +64,53 @@ def url_decode(value):
 @app.route('/chats', methods=["GET", "POST"])
 def chats(request):
     gc.collect()
-
     search_str = ""
     if request.method == "POST":
         search_str = url_decode(request.form.get("search"))
-
-    print("Here 1")
     contacts = data_handler.get_all_contacts()
     chats = data_handler.get_all_chats()
     selected_chats = data_formatter.contains(chats, name=search_str)
-    print("Here 2")
     for chat in selected_chats:
         chat.format_html(contacts)
-    print("Here 3")
-    return app.render_template('static/index.html', identity=identity, chats=selected_chats, current_search=search_str)   
+    return app.render_template('static/index.html', identity=identity, chats=selected_chats, current_search=search_str, contacts=contacts)   
 
 @app.route("/chats/add", methods=["POST"])
 def add_chat(request):
-    contacts = data_handler.get_all_contacts()
     member_ids = []
-    for contact in contacts:
-        print(request.form)
-        #form_value = url_decode(request.form.getlist("checkbox"))
-    try:
-        contact_id =  url_decode(request.form.get("id"))
-    except ValueError:
-        return
-    contact_name =  url_decode(request.form.get("name"))
-    data_handler.add_contact(contact_id, Contact(id=contact_id, name=contact_name))
+    print(request.form)
+    for key, value in request.form.items():
+        if "member" in key:
+            _, member_id = key.split("-")
+            member_ids.append(int(member_id))
+    chat_id = int(request.form.get("id") or "0")
+    chat_name =  url_decode(request.form.get("name"))
+    data_handler.save_chat(Chat({
+        "id": chat_id,
+        "name": chat_name,
+        "member_ids": member_ids,
+    }))
+    return app.redirect("/chats")
 
 @app.route('/contacts', methods=["GET", "POST"])
 def contacts(request):
     gc.collect()
-
     contacts = data_handler.get_all_contacts()
     return app.render_template('static/contacts.html', identity=identity, contacts=contacts)   
 
 @app.route("/contacts/add", methods=["POST"])
 def add_contact(request):
-    try:
-        contact_id =  url_decode(request.form.get("id"))
-    except ValueError:
-        return
+    contact_id = int(request.form.get("id"))
     contact_name =  url_decode(request.form.get("name"))
-    data_handler.add_contact(contact_id, Contact(id=contact_id, name=contact_name))
+    data_handler.add_contact(Contact(id=contact_id, name=contact_name))
+    return app.redirect("/contacts")
 
-@app.route("/contact/edit/<contact_id>", methods=["POST"])
+@app.route("/contacts/edit/<contact_id>", methods=["POST"])
 def edit_contact(request, match):
-    try:
-        contact_id = int(match.group(1))
-        new_id =  int(url_decode(request.form.get("id")))
-    except ValueError:
-        print("Failed to convert edit contact info to int")
-        return
-    new_name =  url_decode(request.form.get("name"))
+    contact_id = int(match.group(1))
+    new_id =  int(request.form.get("id"))
+    new_name = url_decode(request.form.get("name"))
     data_handler.edit_contact(contact_id, Contact(id=new_id, name=new_name))
+    return app.redirect("/contacts")
 
 @app.route("/chat/<chat_id>", methods=["GET", "POST"])
 def open_chat(request, match):

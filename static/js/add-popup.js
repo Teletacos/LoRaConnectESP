@@ -1,11 +1,11 @@
-const popup = document.querySelector(".add-popup-wrapper");
-const close = document.querySelector(".add-popup-close");
-const button = document.querySelector(".header-add-button")
+const addPopup = document.querySelector(".add-popup-wrapper");
+const addClose = document.querySelector(".add-popup-close");
+const addButton = document.querySelector(".header-add-button")
 
-button.addEventListener("click", () => {
-  popup.style.display = "flex";
+addButton.addEventListener("click", () => {
+  addPopup.style.display = "flex";
 })
 
-close.addEventListener("click", () => {
-  popup.style.display = "none";
+addClose.addEventListener("click", () => {
+  addPopup.style.display = "none";
 })

@@ -27,26 +27,16 @@ def get_contact(id):
             return contact
     return None
 
-def save_contact(id, contact):
-    contacts = get_all_contacts()
-    for c in contacts:
-        if c.id == id:
-            c.id = contact.id
-            c.name = contact.name
-            return
-    contacts.append(contact)
-
-    file_handler.save_file(
-        file_handler.CONTACTS_PATH,
-        [item.to_dict() for item in contacts]
-    )
-
 def add_contact(contact):
     contacts = get_all_contacts()
     for c in contacts:
         if c.id == contact.id:
             return
     contacts.append(contact)
+    file_handler.save_file(
+        file_handler.CONTACTS_PATH,
+        [item.to_dict() for item in contacts]
+    )
 
 def edit_contact(id, contact):
     contacts = get_all_contacts()
@@ -54,7 +44,11 @@ def edit_contact(id, contact):
         if c.id == id:
             c.id = contact.id
             c.name = contact.name
-            return
+            break
+    file_handler.save_file(
+        file_handler.CONTACTS_PATH,
+        [item.to_dict() for item in contacts]
+    )
 
 # Chats
 def get_all_chats():
@@ -79,6 +73,20 @@ def save_chat(chat):
     path = file_handler.CHATS_PATH + "/" + str(chat.id) + ".json"
     file_handler.save_file(path, chat.to_dict())
 
+def edit_chat(id, chat):
+    existing = get_chat(id)
+    if not existing: return
+    id_changed = id != chat.id
+    old_path = file_handler.CHATS_PATH + "/" + str(existing.id) + ".json"
+
+    existing.id = chat.id
+    existing.name = chat.name
+    existing.member_ids = chat.member_ids
+    save_chat(existing)
+
+    if id_changed:
+        file_handler.delete_file(old_path)
+        
 # Message
 def add_message(message, chat_id):
     chat = get_chat(chat_id)

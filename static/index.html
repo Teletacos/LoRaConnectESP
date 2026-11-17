@@ -16,11 +16,9 @@
 <body>
     <div class="header">
         <p class="header-text">Chats</p>
-        <form action="/new_chat" method="POST">
-            <button class="header-add-button" type="submit">
-                <img class="header-add-icon" src="/static/images/icons/add.svg">
-            </button>
-        </form>
+        <button class="header-add-button">
+            <img class="header-add-icon" src="/static/images/icons/add.svg">
+        </button>
     </div>
     <form class="search-container" action="/" method="POST">
         <button class="search-button" type="submit"><img class="search-button-icon"
@@ -62,18 +60,21 @@
         <div class="add-popup">
             <button class="add-popup-close animated">X</button>
             <form class="add-popup-content" action="/chats/add" method="POST">
-                <input class="add-name" type="search" placeholder="name" name="name">
+                <input class="add-name" type="text" placeholder="name" name="name">
+                <input class="add-id" type="text" placeholder="id" name="id">
                 <div class="contact-list">
                     {{ for contact in contacts }}
                     <div class="contact" id="{% contact.id %}" type="checkbox">
-                        <img class="contact-picture" src="/static/images/user-pics/{% contact.picture_name %}">
-                        <div class="contact-content">
-                            <div>
-                                <p class="contact-name">{% contact.name %}</p>
-                                <p class="contact-id">{% contact.id %}</p>
+                        <div class="contact-left">
+                            <img class="contact-picture" src="/static/images/user-pics/{% contact.picture_name %}">
+                            <div class="contact-content">
+                                <div>
+                                    <p class="contact-name">{% contact.name %}</p>
+                                    <p class="contact-id">{% contact.id %}</p>
+                                </div>
                             </div>
                         </div>
-                        <input class="contact-checkbox" type="checkbox" id="{% contact.id %}">
+                        <input class="contact-checkbox" type="checkbox" name="member-{% contact.id %}">
                     </div>
                     {{ endfor }}
                 </div>

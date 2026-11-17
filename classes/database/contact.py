@@ -1,5 +1,5 @@
 class Contact:
-    def __init__(self, contact_dict, id=0, name="User", picture_name="default.png"):
+    def __init__(self, contact_dict=None, id=0, name="User", picture_name="default.png"):
         if contact_dict:
             self.id = contact_dict.get("id") or id
             self.name = contact_dict.get("name") or name
