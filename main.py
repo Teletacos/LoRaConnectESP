@@ -6,6 +6,8 @@ import classes.database.data_handler as data_handler
 import classes.database.data_formatter as data_formatter
 from classes.lora_sender import LoraSender
 from classes.database.message import Message
+from classes.database.contact import Contact
+
 
 import lib.microweb.wifi as wifi
 from lib.microweb.microweb import MicroWeb, Response, FileResponse
@@ -53,6 +55,7 @@ def url_decode(value):
     return result.decode("utf-8")
 
 @app.route('/', methods=["GET", "POST"])
+@app.route('/chats', methods=["GET", "POST"])
 def chats(request):
     gc.collect()
 
@@ -70,12 +73,46 @@ def chats(request):
     print("Here 3")
     return app.render_template('static/index.html', identity=identity, chats=selected_chats, current_search=search_str)   
 
+@app.route("/chats/add", methods=["POST"])
+def add_chat(request):
+    contacts = data_handler.get_all_contacts()
+    member_ids = []
+    for contact in contacts:
+        print(request.form)
+        #form_value = url_decode(request.form.getlist("checkbox"))
+    try:
+        contact_id =  url_decode(request.form.get("id"))
+    except ValueError:
+        return
+    contact_name =  url_decode(request.form.get("name"))
+    data_handler.add_contact(contact_id, Contact(id=contact_id, name=contact_name))
+
 @app.route('/contacts', methods=["GET", "POST"])
 def contacts(request):
     gc.collect()
 
     contacts = data_handler.get_all_contacts()
     return app.render_template('static/contacts.html', identity=identity, contacts=contacts)   
+
+@app.route("/contacts/add", methods=["POST"])
+def add_contact(request):
+    try:
+        contact_id =  url_decode(request.form.get("id"))
+    except ValueError:
+        return
+    contact_name =  url_decode(request.form.get("name"))
+    data_handler.add_contact(contact_id, Contact(id=contact_id, name=contact_name))
+
+@app.route("/contact/edit/<contact_id>", methods=["POST"])
+def edit_contact(request, match):
+    try:
+        contact_id = int(match.group(1))
+        new_id =  int(url_decode(request.form.get("id")))
+    except ValueError:
+        print("Failed to convert edit contact info to int")
+        return
+    new_name =  url_decode(request.form.get("name"))
+    data_handler.edit_contact(contact_id, Contact(id=new_id, name=new_name))
 
 @app.route("/chat/<chat_id>", methods=["GET", "POST"])
 def open_chat(request, match):

@@ -1,54 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="manifest" href="/static/manifest.json">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="/static/css/general.css">
-        <link rel="stylesheet" href="/static/css/contacts.css">
-    </head>
-    <body>  
-        <div class="header">
-            <p class="header-text">Contacts</p>
-            <form action="new_chat" method="POST">
-                <button class="header-add-button animated" type="submit">
-                    <img class="header-add-icon" src="/static/images/icons/add.svg">
-                </button>
+<head>
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/contacts.css">
+</head>
+
+<body>
+    <div class="header">
+        <p class="header-text">Contacts</p>
+        <button class="header-add-button animated">
+            <img class="header-add-icon" src="/static/images/icons/add.svg">
+        </button>
+    </div>
+    <form class="search-container" action="/index" method="POST">
+        <button class="search-button" type="submit"><img class="search-button-icon"
+                src="/static/images/icons/search.svg"></button>
+        <input class="search-box" type="search" name="search" placeholder="current_search">
+    </form>
+    <div class="contact-list">
+        {{ for contact in contacts }}
+        <div class="contact" id="{% contact.id %}">
+            <img class="contact-picture" src="/static/images/user-pics/{% contact.picture_name %}">
+            <div class="contact-content">
+                <div>
+                    <p class="contact-name">{% contact.name %}</p>
+                    <p class="contact-id">{% contact.id %}</p>
+                </div>
+
+                <div>
+                    <button class="contact-edit-button animated" id="{% contact.id %}">
+                        <img class="contact-edit-icon" src="/static/images/icons/edit.svg">
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{ endfor }}
+    </div>
+    <div class="footer">
+        <img class="identity-picture" src="/static/images/user-pics/kristina.png">
+        <div class="identity-info">
+            <p class="identity-name">{% identity.name %}</p>
+            <p class="identity-id">{% identity.id %}</p>
+        </div>
+    </div>
+
+    <div class="edit-popup-wrapper">
+        <div class="edit-popup">
+            <button class="edit-popup-close animated">X</button>
+            <form class="edit-popup-content" action="/contacts/edit/" method="POST">
+                <input class="edit-name" type="search" placeholder="name" name="name">
+                <input class="edit-id" type="search" placeholder="id" name="id">
+                <button class="edit-submit-button animated">Apply Edit</button>
             </form>
         </div>
-        <form class="search-container" action="/index" method="POST">
-            <button class="search-button" type="submit"><img class="search-button-icon" src="/static/images/icons/search.svg"></button>
-            <input class="search-box" type="search" name="search" placeholder="current_search">
-        </form>
-        <div class="contact-list">
-            {{ for contact in contacts }}
-                <li class="contact">
-                    <a class="contact-link" href="/chat/{% contact.id %}">
-                        <img class="contact-picture" src="/static/images/user-pics/{% contact.picture_name %}">
-                        <div class="contact-content">
-                            <div>
-                                <p class="contact-name">{% contact.name %}</p>
-                                <p class="contact-id">{% contact.id %}</p>
-                            </div>
-                            
-                            <div>
-                                <button class="contact-edit-button animated">=</button>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            {{ endfor }}
+    </div>
+    <script src="/static/js/edit-popup.js"></script>
+
+    <div class="add-popup-wrapper">
+        <div class="add-popup">
+            <button class="add-popup-close animated">X</button>
+            <form class="add-popup-content" action="/contacts/add" method="POST">
+                <input class="add-name" type="search" placeholder="name" name="name">
+                <input class="add-id" type="search" placeholder="id" name="id">
+                <button class="add-submit-button animated">Add contact</button>
+            </form>
         </div>
-        <div class="footer">
-            <img class="identity-picture" src="/static/images/user-pics/kristina.png">
-            <div class="identity-info">
-                <p class="identity-name">{% identity.name %}</p>
-                <p class="identity-id">{% identity.id %}</p>
-            </div>           
-        </div>
-    </body>
+    </div>
+    <script src="/static/js/add-popup.js"></script>
+</body>
+
 </html>

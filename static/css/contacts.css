@@ -80,9 +80,6 @@ body {
 
 .contact {
     height: 5.5rem;
-}
-
-.contact-link {
     display: grid;
     grid-template-columns: 4.5rem 1fr;
     align-items: center;
@@ -96,11 +93,6 @@ body {
 
     transition-duration: 0.3s;
 }
-
-.contact-link:hover {
-    background-color: var(--lighter-color);
-}
-
 
 .contact-picture {
     padding: 0.75rem;
@@ -134,7 +126,11 @@ body {
     width: 2.2rem;
     height: 2.2rem;
     background-color: var(--accent-color);
-    border-radius: 20%;
+    border-radius: 5px;
+}
+
+.contact-edit-icon {
+    width: 100%;
 }
 
 .footer {
@@ -177,4 +173,140 @@ body {
 .identity-id {
     font-size: var(--text-medium);
     color: var(--text-light-color);
+}
+
+.edit-popup-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color:rgba(0,0,0,.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-popup {
+    width: 20rem;
+    background-color: var(--secondary-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-popup-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border-radius: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgba(150, 0, 0);
+  color: white;
+}
+
+.edit-popup-close:hover {
+  box-shadow: 0 0px 15px rgba(150, 0, 0);
+}
+
+.edit-popup-content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.edit-name {
+    font-size: var(--text-medium);
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+.edit-id {
+    margin-top: 0.5rem;
+    font-size: var(--text-medium);
+    color: var(--text-light-color);
+    background-color: transparent;
+}
+
+.edit-submit-button {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 1.5rem;
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.add-popup-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color:rgba(0,0,0,.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-popup {
+    width: 20rem;
+    background-color: var(--secondary-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-popup-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border-radius: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgba(150, 0, 0);
+  color: white;
+}
+
+.add-popup-close:hover {
+  box-shadow: 0 0px 15px rgba(150, 0, 0);
+}
+
+.add-popup-content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.add-name {
+    font-size: var(--text-medium);
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+.add-id {
+    margin-top: 0.5rem;
+    font-size: var(--text-medium);
+    color: var(--text-light-color);
+    background-color: transparent;
+}
+
+.add-submit-button {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 1.5rem;
+  background-color: var(--accent-color);
+  color: white;
 }

@@ -1,4 +1,3 @@
-
 body {
     background-color: var(--primary-color);
     padding-bottom: 8rem;
@@ -217,4 +216,127 @@ body {
 .identity-id {
     font-size: var(--text-medium);
     color: var(--text-light-color);
+}
+
+.add-popup-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color:rgba(0,0,0,.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-popup {
+    width: 20rem;
+    background-color: var(--secondary-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-popup-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border-radius: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgba(150, 0, 0);
+  color: white;
+}
+
+.add-popup-close:hover {
+  box-shadow: 0 0px 15px rgba(150, 0, 0);
+}
+
+.add-popup-content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.add-name {
+    font-size: var(--text-medium);
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: transparent;
+}
+
+.add-id {
+    margin-top: 0.5rem;
+    font-size: var(--text-medium);
+    color: var(--text-light-color);
+    background-color: transparent;
+}
+
+.add-submit-button {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 1.5rem;
+  background-color: var(--accent-color);
+  color: white;
+}
+
+
+.contact-list {
+    width: 100%;
+}
+
+.contact {
+    height: 5.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    color: inherit;
+    text-decoration: none;
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: var(--lighter-color);
+
+    transition-duration: 0.3s;
+}
+
+.contact-picture {
+    padding: 0.75rem;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 100%;
+}
+
+.contact-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-right: 1rem;
+}
+
+.contact-name {
+    font-size: var(--text-medium);
+    font-weight: bold;
+    color: var(--text-color)
+}
+
+.contact-id {
+    height: 100%;
+    font-size: var(--text-medium);
+    color: var(--text-light-color);
+}
+
+.contact-checkbox {
+  width: 1.5rem;
+  height: 1.5rem;
 }

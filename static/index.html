@@ -1,59 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="manifest" href="/static/manifest.json">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="/static/css/general.css">
-        <link rel="stylesheet" href="/static/css/index.css">
-    </head>
-    <body>  
-        <div class="header">
-            <p class="header-text">Chats</p>
-            <form action="/new_chat" method="POST">
-                <button class="header-add-button" type="submit">
-                    <img class="header-add-icon" src="/static/images/icons/add.svg">
-                </button>
-            </form>
-        </div>
-        <form class="search-container" action="/" method="POST">
-            <button class="search-button" type="submit"><img class="search-button-icon" src="/static/images/icons/search.svg"></button>
-            <input class="search-box" type="search" name="search" placeholder="{% current_search %}">
+<head>
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+
+<body>
+    <div class="header">
+        <p class="header-text">Chats</p>
+        <form action="/new_chat" method="POST">
+            <button class="header-add-button" type="submit">
+                <img class="header-add-icon" src="/static/images/icons/add.svg">
+            </button>
         </form>
-        <ul class="chat-list">
-            {{ for chat in chats }}
-                <li class="chat">
-                    <a class="chat-link" href="/chat/{{chat.id}}">
-                        <img class="chat-picture" src="/static/images/icons/group.svg">
-                        <div class="chat-content">
-                            <div class="chat-top">
-                                <p class="chat-name">{% chat.name %}</p>
-                                <p class="chat-date">{% chat.created_at %}</p>
-                            </div>
-                            <div class="chat-bottom">
-                                <p class="chat-msg">{% chat._last_message %}</p>
-                                <div class="chat-members">
-                                    {{ for picture_name in chat._member_picture_names }}
-                                        <img class="chat-member-picture" src="/static/images/user-pics/{% picture_name %}">
-                                    {{ endfor }}
-                                </div>
+    </div>
+    <form class="search-container" action="/" method="POST">
+        <button class="search-button" type="submit"><img class="search-button-icon"
+                src="/static/images/icons/search.svg"></button>
+        <input class="search-box" type="search" name="search" placeholder="{% current_search %}">
+    </form>
+    <ul class="chat-list">
+        {{ for chat in chats }}
+        <div class="chat">
+            <a class="chat-link" href="/chat/{{chat.id}}">
+                <img class="chat-picture" src="/static/images/icons/group.svg">
+                <div class="chat-content">
+                    <div class="chat-top">
+                        <p class="chat-name">{% chat.name %}</p>
+                        <p class="chat-date">{% chat.created_at %}</p>
+                    </div>
+                    <div class="chat-bottom">
+                        <p class="chat-msg">{% chat._last_message %}</p>
+                        <div class="chat-members">
+                            {{ for picture_name in chat._member_picture_names }}
+                            <img class="chat-member-picture" src="/static/images/user-pics/{% picture_name %}">
+                            {{ endfor }}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{ endfor }}
+    </ul>
+    <div class="footer">
+        <img class="identity-picture" src="/static/images/user-pics/kristina.png">
+        <div class="identity-info">
+            <p class="identity-name">{% identity.name %}</p>
+            <p class="identity-id">{% identity.id %}</p>
+        </div>
+    </div>
+
+    <div class="add-popup-wrapper">
+        <div class="add-popup">
+            <button class="add-popup-close animated">X</button>
+            <form class="add-popup-content" action="/chats/add" method="POST">
+                <input class="add-name" type="search" placeholder="name" name="name">
+                <div class="contact-list">
+                    {{ for contact in contacts }}
+                    <div class="contact" id="{% contact.id %}" type="checkbox">
+                        <img class="contact-picture" src="/static/images/user-pics/{% contact.picture_name %}">
+                        <div class="contact-content">
+                            <div>
+                                <p class="contact-name">{% contact.name %}</p>
+                                <p class="contact-id">{% contact.id %}</p>
                             </div>
                         </div>
-                    </a>
-                </li>
-
-            {{ endfor }}
-        </ul>
-        <div class="footer">
-            <img class="identity-picture" src="/static/images/user-pics/kristina.png">
-            <div class="identity-info">
-                <p class="identity-name">{% identity.name %}</p>
-                <p class="identity-id">{% identity.id %}</p>
-            </div>           
+                        <input class="contact-checkbox" type="checkbox" id="{% contact.id %}">
+                    </div>
+                    {{ endfor }}
+                </div>
+                <button class="add-submit-button animated">Add chat</button>
+            </form>
         </div>
-    </body>
+    </div>
+    <script src="/static/js/add-popup.js"></script>
+</body>
+
 </html>

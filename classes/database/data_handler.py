@@ -27,23 +27,34 @@ def get_contact(id):
             return contact
     return None
 
-def save_contact(contact):
+def save_contact(id, contact):
     contacts = get_all_contacts()
-    found = False
-
-    for i, existing in enumerate(contacts):
-        if existing.id == contact.id:
-            contacts[i] = contact
-            found = True
-            break
-    if not found:
-        contacts.append(contact)
+    for c in contacts:
+        if c.id == id:
+            c.id = contact.id
+            c.name = contact.name
+            return
+    contacts.append(contact)
 
     file_handler.save_file(
         file_handler.CONTACTS_PATH,
         [item.to_dict() for item in contacts]
     )
 
+def add_contact(contact):
+    contacts = get_all_contacts()
+    for c in contacts:
+        if c.id == contact.id:
+            return
+    contacts.append(contact)
+
+def edit_contact(id, contact):
+    contacts = get_all_contacts()
+    for c in contacts:
+        if c.id == id:
+            c.id = contact.id
+            c.name = contact.name
+            return
 
 # Chats
 def get_all_chats():
@@ -63,7 +74,6 @@ def get_chat(id):
         return Chat(file_handler.load_file(path))
     except FileNotFoundError:
         return None
-
 
 def save_chat(chat):
     path = file_handler.CHATS_PATH + "/" + str(chat.id) + ".json"
