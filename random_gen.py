@@ -1,2 +1,2 @@
-from urandom import getrandbits
+from random import getrandbits
 print(getrandbits(32))

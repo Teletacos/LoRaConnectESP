@@ -31,6 +31,7 @@ class LoraSender():
         self.queue_running = False
     
     def on_recv(self, payload):
+        """Callback function for reciving payloads. Decodes payload and writes message to database"""
         sender_id = payload.header_from
         try:
             packet = LoraPacket(encoded=payload.message)
@@ -53,6 +54,7 @@ class LoraSender():
         gc.collect()
 
     def transmit_message(self, message, chat_id, recv_id):
+        """Transmit message through lora and waits for ack/timeout. Writes message to database."""
         self.lora.set_mode_tx()
         packet = LoraPacket(message.id, chat_id, message.content)
         ack = self.lora.send_to_wait(packet.encode(), recv_id)
@@ -63,11 +65,13 @@ class LoraSender():
         self.lora.set_mode_rx()
         return ack
         
-    def send_message(self, message, chat_id, recv_id):
+    def queue_message(self, message, chat_id, recv_id):
+        """Adds message to message queue"""
         data_handler.add_message(message, chat_id)
         self.queue.append([message, chat_id, recv_id, 0])
 
-    async def send_queue(self):
+    async def start_queue(self):
+        """Activate continuous message queue transmission"""
         while True:
             if len(self.queue) > 0:
                 message, chat_id, recv_id, counter = self.queue[0]

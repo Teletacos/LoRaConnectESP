@@ -1,15 +1,15 @@
 {{ for message in chat.messages }}
-    {{ if message._is_sender }}
-        <p class="message receiver-message">
-            <img src="/static/images/user-pics/{% message._picture_name %}" class="message-icon">
-            {% message.content %}
-            {% message.status %}
-        </p>
-    {{ else }}
-        <p class="message sender-message">
-            <img src="/static/images/user-pics/{% message._picture_name %}" class="message-icon">
-            {% message.content %}
-            {% message.status %}
-        </p>
-    {{ endif }}
+{{ if message._is_sender }}
+<p class="message receiver-message">
+    <img src="/static/images/user-pics/{% message._picture_name %}" class="icon">
+    {% message.content %}
+    {% message._status_label %}
+</p>
+{{ else }}
+<p class="message sender-message">
+    <img src="/static/images/user-pics/{% message._picture_name %}" class="icon">
+    {% message.content %}
+    {% message._status_label %}
+</p>
+{{ endif }}
 {{ endfor }}

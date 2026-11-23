@@ -28,6 +28,7 @@ def get_contact(id):
     return None
 
 def add_contact(contact):
+    """Adds new contact, does nothing if contact already exists"""
     contacts = get_all_contacts()
     for c in contacts:
         if c.id == contact.id:
@@ -38,17 +39,15 @@ def add_contact(contact):
         [item.to_dict() for item in contacts]
     )
 
-def edit_contact(id, contact):
+def update_contact(id, contact):
+    """Overrides id and name of existing contact, does nothing if contact doesn't exist"""
     contacts = get_all_contacts()
     for c in contacts:
         if c.id == id:
             c.id = contact.id
             c.name = contact.name
+            file_handler.save_file(file_handler.CONTACTS_PATH, [item.to_dict() for item in contacts])
             break
-    file_handler.save_file(
-        file_handler.CONTACTS_PATH,
-        [item.to_dict() for item in contacts]
-    )
 
 # Chats
 def get_all_chats():
@@ -70,10 +69,12 @@ def get_chat(id):
         return None
 
 def save_chat(chat):
+    """Saves chat in new/existing file"""
     path = file_handler.CHATS_PATH + "/" + str(chat.id) + ".json"
     file_handler.save_file(path, chat.to_dict())
 
-def edit_chat(id, chat):
+def update_chat(id, chat):
+    """Overrides id, name and member_ids of existing chat. Deletes old file if id is changed. Does nothing if chat doesn't exist"""
     existing = get_chat(id)
     if not existing: return
     id_changed = id != chat.id
@@ -89,11 +90,13 @@ def edit_chat(id, chat):
         
 # Message
 def add_message(message, chat_id):
+    """Ads new message to chat"""
     chat = get_chat(chat_id)
     chat.messages.append(message)
     save_chat(chat)
 
 def set_message(message, chat_id):
+    """Replaces message in chat, adds new if it doesn't exist"""
     chat = get_chat(chat_id)
     found_chat = False
     for i in range(len(chat.messages)):

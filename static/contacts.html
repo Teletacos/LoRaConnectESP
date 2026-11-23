@@ -11,19 +11,20 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/css/general.css">
     <link rel="stylesheet" href="/static/css/contacts.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/search.css">
 </head>
 
 <body>
     <div class="header">
         <p class="header-text">Contacts</p>
         <button class="header-add-button animated">
-            <img class="header-add-icon" src="/static/images/icons/add.svg">
+            <img class="icon" src="/static/images/icons/add.svg">
         </button>
     </div>
     <form class="search-container" action="/index" method="POST">
-        <button class="search-button" type="submit"><img class="search-button-icon"
-                src="/static/images/icons/search.svg"></button>
-        <input class="search-box" type="search" name="search" placeholder="current_search">
+        <button class="search-button" type="submit"><img class="icon" src="/static/images/icons/search.svg"></button>
+        <input class="search-box" type="search" name="search" placeholder="{% current_search %}">
     </form>
     <div class="contact-list">
         {{ for contact in contacts }}
@@ -37,7 +38,7 @@
 
                 <div>
                     <button class="contact-edit-button animated" id="{% contact.id %}">
-                        <img class="contact-edit-icon" src="/static/images/icons/edit.svg">
+                        <img class="icon" src="/static/images/icons/edit.svg">
                     </button>
                 </div>
             </div>
@@ -45,11 +46,21 @@
         {{ endfor }}
     </div>
     <div class="footer">
-        <img class="identity-picture" src="/static/images/user-pics/kristina.png">
-        <div class="identity-info">
+        <div class="footer-left">
+            <img class="identity-picture" src="/static/images/user-pics/{% identity.picture_name %}"">
+            <div class=" identity-info">
             <p class="identity-name">{% identity.name %}</p>
             <p class="identity-id">{% identity.id %}</p>
         </div>
+    </div>
+    <div class="footer-right">
+        <a href="/contacts" class="contacts-button animated">
+            <img src="/static/images/icons/group.svg" class="icon">
+        </a>
+        <a href="/chats" class="chats-button animated">
+            <img src="/static/images/icons/chats.svg" class="icon">
+        </a>
+    </div>
     </div>
 
     <div class="edit-popup-wrapper">

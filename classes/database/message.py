@@ -17,11 +17,13 @@ class Message:
             self.content = content
             self.status = status
 
+        self._status_label = self.STATUS_LABELS[0]
         self._picture_name = ""
         self._is_sender = False
 
     def format_html(self, identity, contacts):
-        self.status = self.STATUS_LABELS[self.status]
+        """Updates class variables for html generation. If called, exclusivly use object for html"""
+        self._status_label = self.STATUS_LABELS[self.status]
         if self.sender_id == identity.id:
             self._picture_name = identity.picture_name
             self._is_sender = True

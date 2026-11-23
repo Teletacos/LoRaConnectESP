@@ -18,6 +18,9 @@
     --text-large: 2rem;
     --text-medium: 1rem;
     --text-small: 0.8rem;
+
+    --rounded: 0.5rem;
+    --round: 50%;
 }
 
 body {
@@ -49,4 +52,10 @@ input, textarea, .message {
 
 .animated:active {
     transform: scale(0.95);
+}
+
+.icon {
+    width: 100%;
+    height: 100%;
+    padding: 0.2rem;
 }

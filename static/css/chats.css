@@ -25,52 +25,7 @@ body {
     width: 2.2rem;
     height: 2.2rem;
     background-color: var(--accent-color);
-    border-radius: 100%;
-}
-
-.header-add-icon {
-    width: 100%;
-}
-
-.search-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 3rem;
-    margin: 0 0.75rem 1rem 0.75rem;
-    border-radius: 3rem;
-    background-color: var(--secondary-color);
-
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.search-container:focus-within{
-    border-color: var(--accent-color);
-}
-
-.search-button {
-    align-items: center;
-    height: 100%;
-    width: 3rem;
-    border-radius: 3rem 0 0 3rem;
-    padding: 0.75rem;
-    background-color: transparent;
-}
-
-.search-button-icon {
-    height: 100%;
-    color: var(--text-color);
-}
-
-.search-box{
-    height: 100%;
-    width: 100%;
-    border-radius: 0 3rem 3rem 0;
-    padding-right: 1rem;
-    font-size: 1rem;
-    color: var(--text-color);
-    outline: none;
-    background-color: transparent;
+    border-radius: var(--rounded);
 }
 
 .chat-list {
@@ -83,7 +38,7 @@ body {
 
 .chat-link {
     display: grid;
-    grid-template-columns: 4.5rem 1fr;
+    grid-template-columns: 4.5rem 1fr 4.5rem;
     align-items: center;
     height: 100%;
 
@@ -104,7 +59,7 @@ body {
 .chat-picture {
     padding: 0.75rem;
     width: 100%;
-    border-radius: 100%;
+    border-radius: var(--round);
 }
 
 .chat-content {
@@ -115,7 +70,7 @@ body {
     grid-template-rows: 1.5rem 1fr;
 }
 
-.chat-top { 
+.chat-content-top { 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -131,12 +86,12 @@ body {
     color: var(--text-color)
 }
 
-.chat-date {
+.chat-id {
     font-size: var(--text-small);
     color: var(--text-color);
 }
 
-.chat-bottom {
+.chat-content-bottom {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -173,49 +128,14 @@ body {
 .chat-member-picture {
     height: 100%;
     margin-left: 5px;
-    border-radius: 100%;
+    border-radius: var(--round);
 }
 
-.footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-
-    position: fixed;
-    bottom: 3rem;
-    left: 1rem;
-    right: 1rem;
-    height: 3.5rem;
-
-    border-radius: 4rem 1rem 1rem 4rem;
-    background-color: var(--secondary-color);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.identity-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-}
-
-.identity-picture {
-    height: 4rem;
-    border-radius: 100%;
-    margin-right: 0.75rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.identity-name {
-    font-size: var(--text-medium);
-    font-weight: bold;
-    color: var(--text-color)
-}
-
-.identity-id {
-    font-size: var(--text-medium);
-    color: var(--text-light-color);
+.chat-edit-button {
+    width: 2.2rem;
+    height: 2.2rem;
+    background-color: var(--accent-color);
+    border-radius: var(--rounded);
 }
 
 .add-popup-wrapper {
@@ -233,7 +153,7 @@ body {
 .add-popup {
     width: 20rem;
     background-color: var(--secondary-color);
-    border-radius: 0.5rem;
+    border-radius: var(--rounded);
     padding: 1rem;
     position: relative;
     display: flex;
@@ -246,7 +166,7 @@ body {
   position: absolute;
   top: 0px;
   right: 0px;
-  border-radius: 0.5rem;
+  border-radius: var(--rounded);
   width: 1.5rem;
   height: 1.5rem;
   background-color: rgba(150, 0, 0);
@@ -281,13 +201,12 @@ body {
 
 .add-submit-button {
   margin-top: 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--rounded);
   width: 100%;
   height: 1.5rem;
   background-color: var(--accent-color);
   color: white;
 }
-
 
 .contact-list {
     width: 100%;
@@ -317,7 +236,7 @@ body {
     padding: 0.75rem;
     height: 4rem;
     width: 4rem;
-    border-radius: 100%;
+    border-radius: var(--round);
 }
 
 .contact-content {

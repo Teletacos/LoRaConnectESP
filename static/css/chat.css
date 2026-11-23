@@ -47,11 +47,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.back-button-icon {
-    height: 100%;
-    padding: 0.6rem;
-}
-
 .header-text {
     display: flex;
     flex-direction: column;

@@ -22,13 +22,17 @@ app = MicroWeb(debug=True, ap={"ssid": identity.name, "password": identity.passw
 
 app.add_static("/static/manifest.json", "static/manifest.json")
 app.add_static("/static/css/general.css", "static/css/general.css")
-app.add_static("/static/css/index.css", "static/css/index.css")
+app.add_static("/static/css/chats.css", "static/css/chats.css")
 app.add_static("/static/css/chat.css", "static/css/chat.css")
 app.add_static("/static/css/contacts.css", "static/css/contacts.css")
+app.add_static("/static/css/footer.css", "static/css/footer.css")
+app.add_static("/static/css/search.css", "static/css/search.css")
 
 app.add_static("/static/js/add-popup.js", "static/js/add-popup.js")
 app.add_static("/static/js/edit-popup.js", "static/js/edit-popup.js")
 
+app.add_static("/static/images/icons/chats.svg", "static/images/icons/chats.svg")
+app.add_static("/static/images/icons/edit.svg", "static/images/icons/edit.svg")
 app.add_static("/static/images/icons/add.svg", "static/images/icons/add.svg")
 app.add_static("/static/images/icons/search.svg", "static/images/icons/search.svg")
 app.add_static("/static/images/icons/arrow-back.svg", "static/images/icons/arrow-back.svg")
@@ -37,7 +41,6 @@ app.add_static("/static/images/icons/group.svg", "static/images/icons/group.svg"
 app.add_static("/static/images/user-pics/kristina.png", "static/images/user-pics/kristina.png")
 app.add_static("/static/images/user-pics/walter.png", "static/images/user-pics/walter.png")
 app.add_static("/static/images/user-pics/default.png", "static/images/user-pics/default.png")
-
 
 def url_decode(value):
     result = bytearray()
@@ -60,38 +63,36 @@ def url_decode(value):
 
     return result.decode("utf-8")
 
-@app.route('/', methods=["GET", "POST"])
-@app.route('/chats', methods=["GET", "POST"])
+@app.route('/', methods=["GET"])
+@app.route('/chats', methods=["GET"])
 def chats(request):
     gc.collect()
-    search_str = ""
-    if request.method == "POST":
-        search_str = url_decode(request.form.get("search"))
+    search_str = url_decode(request.form.get("search") or "")
     contacts = data_handler.get_all_contacts()
     chats = data_handler.get_all_chats()
     selected_chats = data_formatter.contains(chats, name=search_str)
     for chat in selected_chats:
         chat.format_html(contacts)
-    return app.render_template('static/index.html', identity=identity, chats=selected_chats, current_search=search_str, contacts=contacts)   
+    return app.render_template('static/chats.html', identity=identity, chats=selected_chats, current_search=search_str, contacts=contacts)   
 
 @app.route("/chats/add", methods=["POST"])
 def add_chat(request):
     member_ids = []
-    print(request.form)
     for key, value in request.form.items():
         if "member" in key:
             _, member_id = key.split("-")
             member_ids.append(int(member_id))
-    chat_id = int(request.form.get("id") or "0")
+    chat_id = request.form.get("id")
+    if len(chat_id) == 0:
+        chat_id = None
+    else:
+        chat_id = int(chat_id)
     chat_name =  url_decode(request.form.get("name"))
-    data_handler.save_chat(Chat({
-        "id": chat_id,
-        "name": chat_name,
-        "member_ids": member_ids,
-    }))
+    new_chat = Chat(id=chat_id, name=chat_name, member_ids=member_ids)
+    data_handler.save_chat(new_chat)
     return app.redirect("/chats")
 
-@app.route('/contacts', methods=["GET", "POST"])
+@app.route('/contacts', methods=["GET"])
 def contacts(request):
     gc.collect()
     contacts = data_handler.get_all_contacts()
@@ -99,9 +100,14 @@ def contacts(request):
 
 @app.route("/contacts/add", methods=["POST"])
 def add_contact(request):
-    contact_id = int(request.form.get("id"))
+    contact_id = request.form.get("id")
+    if len(contact_id) == 0:
+        contact_id = None
+    else:
+        contact_id = int(contact_id)
     contact_name =  url_decode(request.form.get("name"))
-    data_handler.add_contact(Contact(id=contact_id, name=contact_name))
+    new_contact = Contact(id=contact_id, name=contact_name)
+    data_handler.add_contact(new_contact)
     return app.redirect("/contacts")
 
 @app.route("/contacts/edit/<contact_id>", methods=["POST"])
@@ -109,7 +115,8 @@ def edit_contact(request, match):
     contact_id = int(match.group(1))
     new_id =  int(request.form.get("id"))
     new_name = url_decode(request.form.get("name"))
-    data_handler.edit_contact(contact_id, Contact(id=new_id, name=new_name))
+    new_contact = Contact(id=new_id, name=new_name)
+    data_handler.edit_contact(contact_id, new_contact)
     return app.redirect("/contacts")
 
 @app.route("/chat/<chat_id>", methods=["GET", "POST"])
@@ -130,7 +137,7 @@ def open_chat(request, match):
         if 0 < len(message_to_send) < 100:
             message = Message(id=message_amount, sender_id=identity.id, content=message_to_send, status=Message.PENDING)
             recv_id = [x for x in chat.member_ids if x != identity.id][0]
-            ack = lora_sender.send_message(message, chat_id, recv_id)
+            ack = lora_sender.queue_message(message, chat_id, recv_id)
             if ack:
                 last_message_time = time.ticks_ms()
             return app.redirect(f"/chat/{chat_id}")
@@ -152,6 +159,6 @@ def get_messages(request, match):
 
 async def main():
     _thread.start_new_thread(app.run, ())
-    await lora_sender.send_queue()
+    await lora_sender.start_queue()
 
 asyncio.run(main())

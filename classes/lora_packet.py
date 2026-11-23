@@ -2,7 +2,7 @@ import struct
 from classes.database.message import Message
 
 class LoraPacket:
-    HEADER_FORMAT = ">IIB" # 255 characters content max, B=unsigned char 1 byte
+    HEADER_FORMAT = ">IIB" #https://docs.python.org/3/library/struct.html
     HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
 
     def __init__(self, message_id=0, chat_id=0, content="", encoded=None):
@@ -15,6 +15,7 @@ class LoraPacket:
         self.content = content
             
     def encode(self):
+        """Returns packet encoded to bytes"""
         content = self.content.encode("utf-8")
         header = struct.pack(
             self.HEADER_FORMAT,
@@ -22,20 +23,21 @@ class LoraPacket:
             self.message_id,
             len(content)
         )
-        encoded = header + content
-        print(f"Encoded packet size: {len(encoded)} bytes")
-        return encoded
+        bytes = header + content
+        print(f"Encoded packet size: {len(bytes)} bytes")
+        return bytes
 
-    def decode(self, encoded):
-        if len(encoded) < self.HEADER_SIZE:
+    def decode(self, bytes):
+        """Decodes encoded bytes and assigns data to class variables"""
+        if len(bytes) < self.HEADER_SIZE:
             raise ValueError("Invalid packet: header too short")
         
-        print("Decoding", encoded)
+        print("Decoding", bytes)
         self.chat_id, self.message_id, content_length = struct.unpack(
             self.HEADER_FORMAT,
-            encoded[:self.HEADER_SIZE]
+            bytes[:self.HEADER_SIZE]
         )
-        content = encoded[self.HEADER_SIZE:]
+        content = bytes[self.HEADER_SIZE:]
         
         if len(content) != content_length:
             raise ValueError("Invalid packet: incorrect content length")
